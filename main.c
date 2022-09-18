@@ -30,10 +30,10 @@ int main (void)
         for (uint8_t i = 0; i < BULK_READ_SIZE + 1; i++){ r_arr[i] = 0; }
         r = FIFO_ReadFromBuffer(id, &r_arr[0], sizeof r_arr);
         if (r == sizeof r_arr){
-            printf("Read %u values: ", i + 1);
+            printf("Read %u: ", i + 1);
             printf("%.*s\n", BULK_READ_SIZE, r_arr);
         } else {
-            printf("Read %u values: ", i + 1);
+            printf("Read %u: ", i + 1);
             printf("%.*s\n", BULK_READ_SIZE, r_arr);
             printf("Buffer Empty\n");
         }
@@ -45,6 +45,7 @@ int main (void)
     if(FIFO_WriteToBuffer(id, &w1_arr[0], sizeof w1_arr) != sizeof w1_arr){
         printf("Write 1 ERR, buffer full");
     }
+    printf("Write 1: %s\n", w1_arr);
 
     // Read all values in buffer
     fifo_value_t r1_arr[sizeof w1_arr];
@@ -56,6 +57,7 @@ int main (void)
     // Write string to buffer
     fifo_value_t w2_arr[] = "Hello there - GENERAL KENOBI";
     r = FIFO_WriteToBuffer(id, &w2_arr[0], sizeof w2_arr);
+    printf("Write 2: %s\n", w2_arr);
 
     // Read whole string
     fifo_value_t r2_arr[BULK_READ_SIZE * 4];

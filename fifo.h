@@ -18,6 +18,8 @@
 /*******************************************************************************
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
  ******************************************************************************/
+
+// #define FIFO_VERBOSE				// Uncomment for logs
 #define FIFO_DEVELOPMENT_MODE
 
 #define MAX_FIFO_SIZE   256         // Maximum FIFO buffer size in bytes
