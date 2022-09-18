@@ -83,11 +83,21 @@ size_t FIFO_WriteToBuffer(fifo_id_t id, fifo_value_t* data_ptr, size_t data_size
  * @brief Copy values from buffer into an external array
  * 
  * @param id: FIFO ID
- * @param data_ptr: Pointer to external array where values will be written
+ * @param data_ptr: Pointer to external array values will be copied to
  * @param data_size: Amount of values to read and copy
  * @return Amount of values that were read and copied into the external array, if it is lower than data_size then the buffer is empty
  * */
-size_t FIFO_ReadFromBuffer(fifo_id_t id, fifo_value_t* data_ptr, uint16_t data_size);
+size_t FIFO_ReadFromBuffer(fifo_id_t id, fifo_value_t* data_ptr, size_t data_size);
+
+/**
+ * @brief Copy all remaining values from buffer into an external array. 
+ * EXTERNAL ARRAY MUST BE AT LEAST THE SIZE OF THE REMAINING BUFFER, check with FIFO_GetBufferLength()
+ * 
+ * @param id: FIFO ID
+ * @param data_ptr: Pointer to external array values will be copied to
+ * @return Amount of values that were read and copied into the external array 
+ */
+size_t FIFO_ReadAll(fifo_id_t id, fifo_value_t* data_ptr);
 
 /**
  * @brief Add 1 value to FIFO buffer

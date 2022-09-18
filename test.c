@@ -40,16 +40,10 @@ int main (void)
         printf("Write ERR: wrote %u values\n", r);
     }    
 
-    for (uint8_t i = 0; i < (sizeof w2_arr)/(sizeof r_arr) + 1; i++){
-        for (uint8_t i = 0; i < BULK_READ_SIZE + 1; i++){ r_arr[i] = 0; }
-        r = FIFO_ReadFromBuffer(id, &r_arr[0], sizeof r_arr);
-        if (r == sizeof r_arr){
-            printf("Read %u values: ", i + 1);
-        } else {
-            printf("Buffer Empty: ");
-        }
-        printf("%.*s\n", BULK_READ_SIZE, r_arr);
-    }
+    fifo_value_t r2_arr[BULK_READ_SIZE * 4];
+    r = FIFO_ReadAll(id, &r2_arr[0]);
+    printf("Read all: %s\n", r2_arr);
+    printf("Read %u values", r);
 
     return 0;
 }

@@ -94,18 +94,29 @@ size_t FIFO_WriteToBuffer(fifo_id_t id, fifo_value_t* data, size_t data_size){
     return i;
 }
 
-size_t FIFO_ReadFromBuffer(fifo_id_t id, fifo_value_t* data_ptr, uint16_t data_size){
+size_t FIFO_ReadFromBuffer(fifo_id_t id, fifo_value_t* data_ptr, size_t data_size){
 
-    size_t i;
+    size_t i = 0;
+    bool b = FIFO_IsBufferEmpty(id);        // Check if buffer is empty
 
-    for (i = 0; i < data_size && i < MAX_FIFO_SIZE; i++){
-
-        if (FIFO_PullFromBuffer(id, data_ptr + i) == FIFO_BUFFER_EMPTY){      // Pull value to buffer, if buffer is empty:
-            break;              // Stop reading
-        }
+    // Until the amount of values pulled is data_size or buffer is empty
+    for (i = 0; b != FIFO_BUFFER_EMPTY && i < data_size && i < MAX_FIFO_SIZE; i++){      
+        b = FIFO_PullFromBuffer(id, data_ptr + i) == FIFO_BUFFER_EMPTY;      // Pull value from buffer
     }
 
-    return i;
+    return i;           // Amount of values pulled
+}
+
+size_t FIFO_ReadAll(fifo_id_t id, fifo_value_t* data_ptr){
+
+    size_t i = 0;
+    bool b = FIFO_IsBufferEmpty(id);        // Check if buffer is empty
+
+    for (i = 0; b != FIFO_BUFFER_EMPTY && i < MAX_FIFO_SIZE; i++){           // Until buffer is empty
+        b = FIFO_PullFromBuffer(id, data_ptr + i) == FIFO_BUFFER_EMPTY;      // Pull value from buffer
+    }
+
+    return i - 1;           // Amount of values pulled
 }
 
 bool FIFO_PushToBuffer(fifo_id_t id, fifo_value_t data){
